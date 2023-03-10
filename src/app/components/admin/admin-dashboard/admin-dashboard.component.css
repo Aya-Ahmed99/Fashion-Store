@@ -1,0 +1,40 @@
+.footerHandleer {
+  min-height: 600px;
+}
+.container {
+  width: 2000px;
+}
+
+.side {
+  border-radius: 7px;
+
+  background-color: #f5f5f5;
+  margin-left: 10px;
+}
+ul {
+  outline-style: none;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  width: 250px;
+  height: 80px;
+  margin-bottom: 50px;
+  font-size: larger;
+  color: rgb(0, 0, 0);
+  margin-left: -20px;
+}
+
+li:hover {
+  color: rgb(71, 74, 74);
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+  font-weight: bolder;
+  background-color: rgb(229, 230, 230);
+}

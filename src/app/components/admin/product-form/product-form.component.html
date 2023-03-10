@@ -1,0 +1,134 @@
+<div *ngIf="isLoading" class="footerHandleer"></div>
+
+<div class="container-fluid">
+  <div class="row justify-content-center my-5 wrapperOver">
+    <div><h3></h3></div>
+
+    <div *ngIf="!isLoading" class="d-flex justify-content-center">
+      <div class="col-lg-8 col-sm-11 shadow-lg bg-white rounded p-5 mx-5">
+        <div class="row justify-content-center">
+          <div class="col-lg-12 col-sm-8d-flex">
+            <div class="d-flex justify-content-center"></div>
+            <div class="col-lg-12">
+              <select
+                id="catogory"
+                class="form-select"
+                [(ngModel)]="selectedCategory"
+              >
+                <ng-container *ngFor="let category of categories">
+                  <option value="{{ category._id }}">
+                    {{ category.name }}
+                  </option>
+                </ng-container>
+              </select>
+              <form
+                class="d-flex justify-content-center"
+                [formGroup]="productForm"
+                (ngSubmit)="addProduct()"
+              >
+                <div class="col-lg-12 mb-3">
+                  <input
+                    type="text"
+                    class="form-control my-3"
+                    placeholder="Enter Product Name"
+                    name="name"
+                    formControlName="name"
+                  />
+
+                  <ng-container *ngIf="getName.touched">
+                    <div
+                      class="form-text text-danger"
+                      *ngIf="getName.hasError('required')"
+                    >
+                      {{ "account.Name is required" | translate }}
+                    </div>
+                    <div
+                      class="bg-danger"
+                      class="form-text text-danger"
+                      *ngIf="getName.hasError('minlength')"
+                    >
+                      {{
+                        "account.Name length at least should be 3 charcters"
+                          | translate
+                      }}
+                    </div>
+                  </ng-container>
+                  <textarea
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter Product Description"
+                    name="description"
+                    formControlName="description"
+                  ></textarea>
+                  <ng-container *ngIf="getDescription.touched">
+                    <div
+                      class="form-text text-danger"
+                      *ngIf="getDescription.hasError('required')"
+                    >
+                      {{ "admin-products.Description is required" | translate }}
+                    </div>
+                  </ng-container>
+
+                  <input
+                    type="file"
+                    class="form-control my-3"
+                    placeholder="Upload the image"
+                    name="image"
+                    (change)="onImagePicked($event)"
+                  />
+
+                  <ng-container *ngIf="getImage.touched">
+                    <div
+                      class="form-text text-danger"
+                      *ngIf="getImage.hasError('required')"
+                    >
+                      Image is required
+                    </div>
+                  </ng-container>
+                  <input
+                    type="text"
+                    class="form-control my-3"
+                    placeholder="Enter Product Price"
+                    name="price"
+                    formControlName="price"
+                  />
+                  <ng-container *ngIf="getPrice.touched">
+                    <div
+                      class="form-text text-danger"
+                      *ngIf="getPrice.hasError('required')"
+                    >
+                      {{ "admin-products.Price is required" | translate }}
+                    </div>
+                  </ng-container>
+                  <input
+                    type="text"
+                    class="form-control my-3"
+                    placeholder="Enter Product Quantity"
+                    name="quantity"
+                    formControlName="countInStock"
+                  />
+                  <ng-container *ngIf="getCountInStock.touched">
+                    <div
+                      class="form-text text-danger"
+                      *ngIf="getCountInStock.hasError('required')"
+                    >
+                      {{ "admin-products.Quantity is required" | translate }}
+                    </div>
+                  </ng-container>
+                  <div class="d-flex justify-content-center">
+                    <button
+                      type="submit"
+                      class="btn btn-dark mt-3 form-control w-25 my-3"
+                    >
+                      {{ productId ? "Edit Product" : "Add Product" }}
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,192 @@
+<div *ngIf="isLoading" class="footerHandleer"></div>
+
+<header id="site-header">
+  <div class="container"></div>
+</header>
+<div *ngIf="!checkedOut">
+  <div
+    class="container text-center text-capitalize emptyText"
+    *ngIf="myCart.length === 0"
+  >
+    <fa-icon [icon]="faBoxOpen" size="5x" class="my-5"></fa-icon>
+    <h2 class="my-5">
+      {{ "cart.Buy Somthing To Show Your Check" | translate }}
+    </h2>
+  </div>
+  <div class="container">
+    <section id="cart">
+      <article
+        class="product"
+        *ngFor="let product of myCart; let index = index"
+      >
+        <header>
+          <a class="remove" (click)="removeItem(index)">
+            <img src="{{ url+product.image }}" alt="" />
+
+            <h3>
+              {{ "cart.Remove product" | translate }}
+            </h3>
+          </a>
+        </header>
+
+        <div class="content">
+          <h1>{{ product.name }}</h1>
+          <span>{{ product.description | shorten }}</span>
+        </div>
+        <footer class="content">
+          <span class="qt-minus" (click)="decreaseQuantity(quantity, index)"
+            >-</span
+          >
+          <span class="qt" #quantity>{{ product.quantity }}</span>
+          <span class="qt-plus" (click)="increaseQuantity(quantity, index)"
+            >+</span
+          >
+          <h2 class="full-price">
+            {{ product.price * product.quantity | currency : "EGP " }}
+          </h2>
+          <h2 class="price">{{ product.price | currency : "EGP " }}</h2>
+        </footer>
+      </article>
+    </section>
+    <footer *ngIf="myCart.length > 0" id="site-footer">
+      <div class="container clearfix">
+        <div class="left">
+          <h2 class="subtotal">
+            {{ "cart.Subtotal" | translate }}
+
+            : <span>{{ subtotal | currency : "EGP " }}</span>
+          </h2>
+          <h3 class="tax">
+            {{ "cart.Taxes (14%)" | translate }}
+            : <span>{{ afterTaxes | currency : "EGP " }}</span>
+          </h3>
+          <h3 class="shipping">
+            {{ "cart.Shipping" | translate }}
+            : <span>{{ shiping | currency : "EGP " }}</span>
+          </h3>
+        </div>
+        <div class="right">
+          <h1 class="total">
+            {{ "cart.Total" | translate }}
+            : <span>{{ total | currency : "EGP " }}</span>
+          </h1>
+          <a class="btn" (click)="checkOut()">
+            {{ "cart.Checkout" | translate }}
+          </a>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<div class="container-fluid" *ngIf="checkedOut">
+  <div class="row justify-content-center my-5">
+    <div><h3></h3></div>
+
+    <div *ngIf="!isLoading" class="d-flex justify-content-center">
+      <div class="col-lg-8 col-sm-11 shadow-lg bg-white rounded p-5 mx-5">
+        <div class="row justify-content-center">
+          <div class="col-lg-12 col-sm-8d-flex">
+            <div class="d-flex justify-content-center"></div>
+            <div class="col-lg-12">
+              <form
+                class="d-flex justify-content-center"
+                [formGroup]="productForm"
+                (ngSubmit)="confirm()"
+              >
+                <div class="col-lg-12 mb-3">
+                  <textarea
+                    type="text"
+                    class="form-control my-4"
+                    placeholder="Enter your shipping Address"
+                    name="address"
+                    formControlName="address"
+                  ></textarea>
+                  <ng-container *ngIf="getAddress.touched">
+                    <div
+                      class="form-text text-danger"
+                      *ngIf="getAddress.hasError('required')"
+                    >
+                      Address is required
+                    </div>
+                  </ng-container>
+                  <select
+                    id="city"
+                    class="form-select my-4"
+                    #city
+                    (change)="onSelected(city.value)"
+                  >
+                    <option default>select city</option>
+                    <option value="Shibin el-Kom">Shibin el-Kom</option>
+                    <option value="Cairo">Cairo</option>
+                    <option value="Alexandria">Alexandria</option>
+                    <option value="Giza">Giza</option>
+                    <option value="Shubra el-Khema">Shubra el-Khema</option>
+                  </select>
+                  <ng-container *ngIf="getCity.touched">
+                    <div
+                      class="form-text text-danger"
+                      *ngIf="
+                        getCity.hasError('required') ||
+                        city.value === 'select country'
+                      "
+                    >
+                      {{ "cart.Address is required" | translate }}
+                    </div>
+                  </ng-container>
+                  <input
+                    type="text"
+                    class="form-control my-4"
+                    placeholder="zip"
+                    name="price"
+                    formControlName="zip"
+                  />
+                  <ng-container *ngIf="getZip.touched">
+                    <div
+                      class="form-text text-danger"
+                      *ngIf="getZip.hasError('required')"
+                    >
+                      {{ "cart.zip is required" | translate }}
+                    </div>
+                  </ng-container>
+                  <input
+                    type="text"
+                    class="form-control my-4"
+                    placeholder="Enter your phone"
+                    name="phone"
+                    formControlName="phone"
+                  />
+                  <ng-container *ngIf="getPhone.touched">
+                    <div
+                      class="form-text text-danger"
+                      *ngIf="getPhone.hasError('required')"
+                    >
+                      {{ "account.Phone is required" | translate }}
+                    </div>
+                  </ng-container>
+                  <div class="d-flex justify-content-center">
+                    <div class="d-flex gap-3">
+                      <button
+                        type="button"
+                        class="btn bg-info form-control my-3 btn-sm back d-flex justify-content-center align-items-center"
+                        (click)="getCartToEdit()"
+                      >
+                        <fa-icon [icon]="faArrowLeft" size="1x"></fa-icon>
+                      </button>
+                      <button
+                        type="submit"
+                        class="btn btn-dark form-control my-3 d-flex justify-content-center align-items-center confirm"
+                      >
+                        confirm
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

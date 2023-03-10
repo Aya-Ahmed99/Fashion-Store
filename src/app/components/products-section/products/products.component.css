@@ -1,0 +1,17 @@
+.footerHandleer {
+  min-height: 600px;
+}
+
+ul li 
+{ 
+  cursor: pointer;
+}
+
+.pagination
+{
+  width: 100px;
+}
+.pag
+{
+  margin-bottom: 20px;
+}

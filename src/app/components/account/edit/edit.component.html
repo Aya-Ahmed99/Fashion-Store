@@ -1,0 +1,134 @@
+<div *ngIf="isLoading" class="footerHandleer"></div>
+
+<div class="container-fluid">
+  <div class="row justify-content-center my-5 wrapperOver">
+    <div><h3></h3></div>
+
+    <div *ngIf="!isLoading" class="d-flex justify-content-center">
+      <div class="col-lg-8 col-sm-11 shadow-lg bg-white rounded p-5 mx-5">
+        <div class="row justify-content-center">
+          <div class="col-lg-12 col-sm-8d-flex">
+            <div class="d-flex justify-content-center"></div>
+            <div class="col-lg-12">
+              <form
+                class="d-flex justify-content-center"
+                [formGroup]="userForm"
+                (ngSubmit)="updateUser()"
+              >
+                <div class="col-lg-12 mb-3">
+                  <input
+                    type="text"
+                    class="form-control my-3"
+                    placeholder="Enter Your Name"
+                    name="name"
+                    formControlName="fullName"
+                  />
+
+                  <ng-container *ngIf="getName.touched">
+                    <div
+                      class="form-text text-danger"
+                      *ngIf="getName.hasError('required')"
+                    >
+                      {{ "account.Name is required" | translate }}
+                    </div>
+                    <div
+                      class="bg-danger"
+                      class="form-text text-danger"
+                      *ngIf="getName.hasError('minlength')"
+                    >
+                      {{
+                        "account.Name length at least should be 3 charcters"
+                          | translate
+                      }}
+                    </div>
+                  </ng-container>
+
+                  <input
+                    type="text"
+                    class="form-control my-3"
+                    placeholder="Enter Your E-mail"
+                    name="email"
+                    formControlName="email"
+                  />
+                  <ng-container *ngIf="getEmail.touched">
+                    <div
+                      class="form-text text-danger"
+                      *ngIf="getEmail.hasError('required')"
+                    >
+                      {{ "account.Email is required" | translate }}
+                    </div>
+                    <div
+                      class="form-text text-danger"
+                      *ngIf="getEmail.hasError('email')"
+                    >
+                      {{ "account.Email not Valid" | translate }}
+                    </div>
+                  </ng-container>
+
+                  <input
+                    type="password"
+                    class="form-control my-3"
+                    placeholder="Enter Your Password"
+                    name="password"
+                    formControlName="password"
+                  />
+                  <ng-container *ngIf="getPassword.touched">
+                    <div
+                      class="form-text text-danger"
+                      *ngIf="getPassword.hasError('required')"
+                    >
+                      {{ "account.Password is required" | translate }}
+                    </div>
+                    <div
+                      class="form-text text-danger"
+                      *ngIf="getPassword.hasError('minlength')"
+                    >
+                      {{
+                        "account.Password length at least should be 8 charcters"
+                          | translate
+                      }}
+                    </div>
+                  </ng-container>
+
+                  <input
+                    type="text"
+                    class="form-control my-3"
+                    placeholder="Enter Your Phone"
+                    name="password"
+                    formControlName="phone"
+                  />
+                  <ng-container *ngIf="getPhone.touched">
+                    <div
+                      class="form-text text-danger"
+                      *ngIf="getPhone.hasError('required')"
+                    >
+                      {{ "account.Phone is required" | translate }}
+                    </div>
+                    <div
+                      class="form-text text-danger"
+                      *ngIf="getPhone.hasError('minlength')"
+                    >
+                      {{
+                        "account.Phone length at least should be 11 numbers"
+                          | translate
+                      }}
+                    </div>
+                  </ng-container>
+
+                  <div class="d-flex justify-content-center">
+                    <button
+                      type="submit"
+                      class="btn btn-dark mt-3 form-control w-25 my-3"
+                    >
+                      {{ "account.Update" | translate }}
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

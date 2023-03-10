@@ -1,0 +1,164 @@
+<div *ngIf="isLoading" class="footerHandleer"></div>
+<div class="container-fluid">
+  <div class="row justify-content-center my-5">
+    <div class="col-lg-8 col-sm-11 shadow-lg bg-white rounded p-5">
+      <div class="row justify-content-center my-5">
+        <div class="col-lg-8 col-sm-8">
+          <form
+            [formGroup]="userForm"
+            (ngSubmit)="registerUser()"
+            *ngIf="!isLoading"
+          >
+            <h1 class="h3 mb-3 fw-normal text-center">
+              {{ "account.Sign Up" | translate }}
+            </h1>
+
+            <div class="form-floating">
+              <input
+                formControlName="fullname"
+                type="text"
+                class="form-control my-4"
+                id="floatingName"
+              />
+              <label for="floatingName">
+                {{ "account.Full Name" | translate }}
+              </label>
+            </div>
+            <ng-container *ngIf="getName.touched">
+              <div
+                class="form-text text-danger"
+                *ngIf="getName.hasError('required')"
+              >
+                {{ "account.Name is required" | translate }}
+              </div>
+
+              <div
+                class="form-text text-danger"
+                *ngIf="getName.hasError('minlength')"
+              >
+                {{
+                  "account.Name length at least should be 8 charcters"
+                    | translate
+                }}
+              </div>
+
+              <div
+                class="form-text text-danger"
+                *ngIf="getName.hasError('pattern')"
+              >
+                {{ "account.Please enter a valid name" | translate }}
+              </div>
+            </ng-container>
+            <div class="form-floating">
+              <input
+                formControlName="email"
+                type="text"
+                class="form-control my-4"
+                id="floatingEmail"
+                placeholder="name@example.com"
+              />
+              <label for="floatingEmail">
+                {{ "account.Email address" | translate }}
+              </label>
+            </div>
+            <ng-container *ngIf="getEmail.touched">
+              <div
+                class="form-text text-danger"
+                *ngIf="getEmail.hasError('required')"
+              >
+                {{ "account.Email is required" | translate }}
+              </div>
+
+              <div
+                class="form-text text-danger"
+                *ngIf="getEmail.hasError('email')"
+              >
+                {{ "account.Email not Valid" | translate }}
+              </div>
+            </ng-container>
+            <div class="form-floating">
+              <input
+                formControlName="password"
+                type="password"
+                class="form-control my-4"
+                id="floatingPassword"
+                placeholder="Password"
+              />
+              <label for="floatingPassword">
+                {{ "account.Password" | translate }}
+              </label>
+            </div>
+            <ng-container *ngIf="getPassword.touched">
+              <div
+                class="form-text text-danger"
+                *ngIf="getPassword.hasError('required')"
+              >
+                {{ "account.Password is required" | translate }}
+              </div>
+              <div
+                class="form-text text-danger"
+                *ngIf="getPassword.hasError('minlength')"
+              >
+                {{
+                  "account.Password length at least should be 8 charcters"
+                    | translate
+                }}
+              </div>
+            </ng-container>
+            <div class="form-floating">
+              <input
+                formControlName="phone"
+                type="text"
+                class="form-control my-4"
+                id="floatingPhone"
+                placeholder="01015226007"
+              />
+              <label for="floatingPhone">
+                {{ "account.Mobile Number" | translate }}
+              </label>
+            </div>
+            <ng-container *ngIf="getPhone.touched">
+              <div
+                class="form-text text-danger"
+                *ngIf="getPhone.hasError('required')"
+              >
+                {{ "account.Phone is required" | translate }}
+              </div>
+
+              <div
+                class="form-text text-danger"
+                *ngIf="getPhone.hasError('minlength')"
+              >
+                {{
+                  "account.Phone length at least should be 11 numbers"
+                    | translate
+                }}
+              </div>
+
+              <div
+                class="form-text text-danger"
+                *ngIf="getPhone.hasError('pattern')"
+              >
+                {{ "account.Please enter a valid mobile number" | translate }}
+              </div>
+            </ng-container>
+            <button
+              routerLink="/Account/login"
+              class="btn btn-sm btn-primary mt-1"
+            >
+              {{ "account.Already have account?" | translate }}
+            </button>
+
+            <button
+              class="w-100 btn btn-lg btn-primary my-4"
+              type="submit"
+              [disabled]="!userForm.valid"
+            >
+              {{ "account.Sign Up" | translate }}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

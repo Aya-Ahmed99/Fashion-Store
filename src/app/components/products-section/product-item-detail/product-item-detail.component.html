@@ -1,0 +1,53 @@
+<div class="container">
+  <div *ngIf="!isLoading" class="row shadow-sm my-5 mx-4">
+    <div class="d-flex justify-content-around">
+      <div class="col-3 ms-5">
+        <img
+          src="{{ url+product.Data.image }}"
+          alt="{{ product.Data.name }}"
+          class="img-fluid bg-light w-75 rounded"
+        />
+      </div>
+      <div class="col-5 mt-5">
+        <h3>{{ product.Data.name }}</h3>
+        <p>{{ product.Data.price | currency : "EGP " }}</p>
+        <div class="d-flex align-items-center">
+          <fa-icon
+            [icon]="faMinusCircle"
+            class="text-warning me-2"
+            style="cursor: pointer; font-size: 2em"
+            (click)="decreaseQuantity()"
+          ></fa-icon>
+          <span class="fw-bolder" style="font-size: 1.5em">{{ quantity }}</span>
+          <fa-icon
+            [icon]="faPlusCircle"
+            class="text-warning mx-2"
+            style="cursor: pointer; font-size: 2em"
+            (click)="increaseQuantity()"
+          ></fa-icon>
+          <button
+            [disabled]="accountService.isAdmin === 'admin'"
+            class="btn btn-outline-secondary btn-lg ms-4"
+            (click)="addToCartAlso(quantity)"
+          >
+            {{ "products.Add To Cart" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5 ms-5">
+      <div class="col-9 ms-3">
+        <h4>{{ "products.Description" | translate }}</h4>
+        <p>{{ product.Data.description }}</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container">
+    <h3>
+      {{ "products.You can also see" | translate }}
+    </h3>
+    <app-products></app-products>
+  </div>
+  
+</div>

@@ -1,0 +1,33 @@
+<footer class="bg-primary text-center text-white">
+  <!-- Grid container -->
+  <div class="container p-4 pb-0 bg-primary">
+    <!-- Section: Social media -->
+    <section class="mb-4">
+      <!-- Facebook -->
+      <a
+        class="btn btn-outline-light btn-floating m-1 me-4"
+        routerLink="/products"
+        role="button"
+        ><fa-icon [icon]="faCartShopping" size="1x" class=""></fa-icon
+      ></a>
+
+      <!-- Twitter -->
+      <a
+        class="btn btn-outline-light btn-floating m-1"
+        routerLink="/"
+        role="button"
+        ><fa-icon [icon]="faHouse" size="1x" class=""></fa-icon
+      ></a>
+    </section>
+    <!-- Section: Social media -->
+  </div>
+  <!-- Grid container -->
+
+  <!-- Copyright -->
+  <div
+    class="text-center p-3 text-white text-capitalize"
+    style="background-color: rgba(0, 0, 0, 0.2)"
+  >
+    {{ "shared.MADE WITH ❤️ BY Team 4 © 2023" | translate }}
+  </div>
+</footer>

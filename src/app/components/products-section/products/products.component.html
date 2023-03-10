@@ -1,0 +1,57 @@
+<div *ngIf="isLoading" class="footerHandleer"></div>
+
+<div class="container">
+  <div class="row my-5">
+    <section>
+      <section class="row my-5">
+        <section class="col-3" *ngIf="categoriesPath.includes(this.router.url)">
+          <h5 class="">{{ "products.Our Categories" | translate }}</h5>
+          <ul class="list-group my-3">
+            <li
+              class="list-group-item active"
+              aria-current="true"
+              style="cursor: pointer"
+              (click)="getProducts()"
+            >
+              {{ "products.ALL" | translate }}
+            </li>
+            <ng-container *ngFor="let item of categories">
+              <li
+                class="list-group-item"
+                style="cursor: pointer"
+                (click)="getProductCatogry(item._id)"
+              >
+                {{ item.name }}
+              </li>
+            </ng-container>
+          </ul>
+        </section>
+        <div
+          *ngIf="!isLoading && products.length === 0"
+          [class]="getWidthEmptyMessage()"
+        >
+          we will add some product soon,wait for us
+        </div>
+        <section [class]="getWidth()" *ngIf="products.length !== 0">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="col mb-4" *ngFor="let item of products">
+              <app-product-item [product]="item"></app-product-item>
+            </div>
+          </div>
+        </section>
+      </section>
+      <div class="text-center w-100"></div>
+    </section>
+  </div>
+  
+  <div class="container pag">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination m-auto">
+        <li class="page-item me-2" *ngFor="let num of pageArray;let i = index"><a class="page-link" (click)="getProductsByPge(i+1)">{{ i+1 }}</a></li>
+      </ul>
+    </nav>
+  </div>
+
+
+
+</div>

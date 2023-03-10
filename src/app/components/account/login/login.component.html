@@ -1,0 +1,73 @@
+<div *ngIf="isLoading" class="footerHandleer"></div>
+
+<main class="form-signin w-100 mt-5 m-auto">
+  <form
+    class="login"
+    [formGroup]="loginForm"
+    (ngSubmit)="onSubmit()"
+    *ngIf="!isLoading"
+  >
+    <h1 class="h3 mb-3 fw-normal text-center">
+      {{ "account.Login" | translate }}
+    </h1>
+
+    <div class="form-floating">
+      <input
+        formControlName="email"
+        type="text"
+        class="form-control email"
+        id="floatingInput"
+        placeholder="name@example.com"
+      /><ng-container class="mt-5" *ngIf="getEmail.touched">
+        <div
+          class="form-text text-danger"
+          *ngIf="getEmail.hasError('required')"
+        >
+          {{ "account.Email is required" | translate }}
+        </div>
+
+        <div class="form-text text-danger" *ngIf="getEmail.hasError('email')">
+          {{ "account.Email not Valid" | translate }}
+        </div>
+      </ng-container>
+      <label for="floatingInput">
+        {{ "account.Email address" | translate }}
+      </label>
+    </div>
+    <div class="form-floating pass">
+      <input
+        formControlName="password"
+        type="password"
+        class="form-control"
+        id="floatingPassword"
+        placeholder="Password"
+      />
+      <ng-container *ngIf="getPassword.touched">
+        <div
+          class="form-text text-danger"
+          *ngIf="getPassword.hasError('required')"
+        >
+          {{ "account.Password is required" | translate }}
+        </div>
+        <div
+          class="form-text text-danger"
+          *ngIf="getPassword.hasError('minlength')"
+        >
+          {{
+            "account.Password length at least should be 8 charcters" | translate
+          }}
+        </div>
+      </ng-container>
+      <label for="floatingPassword">
+        {{ "account.Password" | translate }}
+      </label>
+    </div>
+    <button routerLink="/Account/register" class="btn btn-sm btn-primary mb-3">
+      {{ "account.New User?" | translate }}
+    </button>
+    <button class="w-100 btn btn-lg btn-primary sub" type="submit">
+      {{ "account.Sign in" | translate }}
+    </button>
+    <p class="mt-5 mb-3 text-muted text-center">© 2022–2023</p>
+  </form>
+</main>

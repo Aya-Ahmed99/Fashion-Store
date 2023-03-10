@@ -1,0 +1,120 @@
+<div class="container">
+  <div
+    class="d-flex flex-column flex-md-row align-items-center p-1 justify-content-between"
+  >
+    <a
+      routerLink="/home"
+      class="d-flex align-items-center text-dark text-decoration-none gap-1"
+    >
+      <a class="position-relative" routerLink="/">
+        <fa-icon [icon]="faStore" size="3x" class=""></fa-icon>
+      </a>
+      <span class="fs-1">Store</span>
+    </a>
+
+    <nav class="text-uppercase" style="font-size: larger">
+      <a
+        class="me-5 py-2 text-dark text-decoration-none"
+        routerLink="/home"
+        routerLinkActive="active"
+        >{{ "shared.HOME" | translate }}</a
+      >
+      <a
+        class="me-3 py-2 text-dark text-decoration-none"
+        routerLink="/products"
+        routerLinkActive="active"
+        >{{ "shared.SHOP" | translate }}</a
+      ><a
+        class="me-3 py-2 text-dark text-decoration-none"
+        routerLink="/about"
+        routerLinkActive="active"
+        >{{ "shared.ABOUT" | translate }}</a
+      >
+    </nav>
+    <div class="d-flex align-items-center gap-4">
+      <a
+        class="position-relative"
+        routerLink="cart"
+        *ngIf="acountService.isAdmin !== 'admin'"
+      >
+        <fa-icon [icon]="faCartShopping" size="2x" class="m-2"></fa-icon>
+        <div class="cart-no" *ngIf="ProductNumberService.numberOfproduct > 0">
+          {{ ProductNumberService.numberOfproduct }}
+        </div>
+      </a>
+      <a
+        class="position-relative"
+        routerLink="/admin/dashboard"
+        *ngIf="acountService.isAdmin === 'admin'"
+      >
+        <fa-icon [icon]="faGripHorizontal" size="2x" class="m-4"></fa-icon>
+      </a>
+      <div *ngIf="acountService.logged">
+        <div class="dropdown ms-3">
+          <a
+            class="btn btn-danger dropdown-toggle"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            HELLO, {{ acountService.userName }}
+          </a>
+
+          <ul class="dropdown-menu">
+            <li *ngIf="acountService.isAdmin !== 'admin'">
+              <a class="dropdown-item" routerLink="/cart">
+                <fa-icon
+                  [icon]="faShoppingBasket"
+                  size="1x"
+                  class="me-3"
+                ></fa-icon>
+                {{ "shared.view cart" | translate }}
+              </a>
+              <a
+                class="dropdown-item"
+                style="cursor: pointer"
+                (click)="updateUser()"
+              >
+                <fa-icon [icon]="faUser" size="1x" class="me-3"></fa-icon>
+                {{ "shared.Edit Account" | translate }}
+              </a>
+            </li>
+            <li *ngIf="acountService.isAdmin === 'admin'">
+              <a class="dropdown-item" routerLink="./admin/dashboard">
+                <fa-icon
+                  [icon]="faGripHorizontal"
+                  size="1x"
+                  class="me-3"
+                ></fa-icon>
+                {{ "shared.DashBoard" | translate }}
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" (click)="logout()" routerLink="/">
+                <fa-icon
+                  [icon]="faRightFromBracket"
+                  size="1x"
+                  class="me-3"
+                ></fa-icon>
+                {{ "shared.Logout" | translate }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <ng-container *ngIf="!acountService.logged">
+        <a class="btn btn-outline-primary m-2" routerLink="/Account/login">
+          {{ "shared.Login" | translate }}</a
+        >
+        <a
+          class="btn btn-outline-primary me-2"
+          routerLink="/Account/register"
+          >{{ "shared.Sign Up" | translate }}</a
+        >
+      </ng-container>
+      <button class="btn btn-info" (click)="changeLangauge()">
+        {{ lang === "en" ? "عربي" : "English" }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,352 @@
+<div *ngIf="isLoading" class="footerHandleer"></div>
+<div class="d-flex my-5" *ngIf="!isLoading">
+  <div class="side">
+    <ul>
+      <li (click)="viewProducts()" style="cursor: pointer">
+        {{ "admin-products.Manage Products" | translate }}
+      </li>
+      <li (click)="viewUsers()" style="cursor: pointer">
+        {{ "admin-products.Manage Users" | translate }}
+      </li>
+      <li (click)="viewReports()" style="cursor: pointer">
+        {{ "admin-products.Reports" | translate }}
+      </li>
+    </ul>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div
+          *ngIf="manageProducts"
+          class="card border-left-primary shadow h-100"
+        >
+          <!-- Card Header - Dropdown -->
+          <div
+            class="card-header d-flex flex-row align-items-center justify-content-between py-3"
+          >
+            <h6 class="font-weight-bold text-primary m-0">
+              {{ "admin-products.Manage Products" | translate }}
+            </h6>
+          </div>
+          <div class="card-body">
+            <div
+              *ngIf="products.length === 0"
+              class="my-5 d-flex flex-column align-items-center"
+            >
+              <fa-icon [icon]="faBoxOpen" size="5x" class="my-5"></fa-icon>
+              <h2 class="text-capitalize text-center">
+                {{ "admin-products.its Empty, Add some..." | translate }}
+              </h2>
+            </div>
+
+            <table *ngIf="products.length > 0" class="table ms-1 table-hover">
+              <thead class="text-center">
+                <tr>
+                  <th>
+                    {{ "admin-products.Name" | translate }}
+                  </th>
+                  <th>
+                    {{ "admin-products.Price" | translate }}
+                  </th>
+                  <th>
+                    {{ "admin-products.Description" | translate }}
+                  </th>
+                  <th>
+                    {{ "admin-products.Action" | translate }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                *ngFor="let product of products; let index = index"
+                class="text-center"
+              >
+                <tr>
+                  <td>
+                    {{ product.name }}
+                  </td>
+                  <td>
+                    {{ product.price }}
+                  </td>
+                  <td>
+                    {{ product.description | shorten }}
+                  </td>
+                  <td class="d-flex justify-content-center">
+                    <a
+                      class="btn btn-outline-dark mx-3 rounded"
+                      routerLink="/admin/updateproduct/{{ product._id }}"
+                    >
+                      {{ "admin-products.Update" | translate }}
+                    </a>
+                    <a
+                      class="btn btn-outline-danger rounded"
+                      (click)="deleteProductHandler(product._id, index)"
+                    >
+                      {{ "admin-products.Remove" | translate }}
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="d-flex justify-content-around">
+              <a
+                class="btn btn-outline-dark mb-4 rounded"
+                routerLink="/admin/addproduct/new"
+              >
+                {{ "admin-products.Add new product" | translate }}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div *ngIf="manageUsers" class="card border-left-primary shadow h-100">
+          <!-- Card Header - Dropdown -->
+          <div
+            class="card-header d-flex flex-row align-items-center justify-content-between py-3"
+          >
+            <h6 class="font-weight-bold text-primary m-0">
+              {{ "admin-products.Manage Users" | translate }}
+            </h6>
+          </div>
+          <div class="card-body">
+            <table class="table ms-1 table-hover">
+              <thead class="text-center">
+                <tr>
+                  <th>
+                    {{ "admin-users.Full Name" | translate }}
+                  </th>
+                  <th>
+                    {{ "admin-users.Email" | translate }}
+                  </th>
+                  <th>
+                    {{ "admin-users.Phone Number" | translate }}
+                  </th>
+                  <th>
+                    {{ "admin-products.Action" | translate }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                *ngFor="let user of allUsers; let index = index"
+                class="text-center"
+              >
+                <tr *ngIf="user.email !== 'admin@store.com'">
+                  <td>
+                    {{ user.fullname }}
+                  </td>
+                  <td>
+                    {{ user.email }}
+                  </td>
+                  <td>
+                    {{ user.phone }}
+                  </td>
+                  <td class="d-flex justify-content-center">
+                    <a
+                      class="btn btn-outline-danger rounded"
+                      (click)="deleteUserHandler(user._id, index)"
+                    >
+                      {{ "admin-products.Remove" | translate }}
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="wrapper" *ngIf="reports">
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content ">
+          <div class="container-fluid">
+            <!-- Content Row -->
+            <div class="row">
+              <!-- Total Sales -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col ms-2">
+                        <div
+                          class="text-xs font-weight-bold text-primary text-uppercase mb-1"
+                        >
+                          {{ "admin-products.TOTAL SALES" | translate }}
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                          {{ totalsales | currency : " EGP " }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!--Users Number -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div
+                          class="text-xs font-weight-bold text-success text-uppercase mb-1"
+                        >
+                          {{ "admin-products.USERS NUMBER" | translate }}
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                          {{ allUsers.length }}
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Products Number -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div
+                          class="text-xs font-weight-bold text-info text-uppercase mb-1"
+                        >
+                          {{ "admin-products.PRODUCTS NUMBER" | translate }}
+                        </div>
+                        <div class="row no-gutters align-items-center">
+                          <div class="col-auto">
+                            <div
+                              class="h5 mb-0 mr-3 font-weight-bold text-gray-800"
+                            >
+                              {{ products.length }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <i
+                          class="fas fa-clipboard-list fa-2x text-gray-300"
+                        ></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pending Requests Card Example -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div
+                          class="text-xs font-weight-bold text-warning text-uppercase mb-1"
+                        >
+                          {{ "admin-products.PENDING REQUESTS" | translate }}
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                          {{ allOrders.length }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Content Row -->
+
+            <div class="row">
+              <!-- Area Chart -->
+              <div class="col-xl-8 col-lg-7">
+                <div class="card shadow">
+                  <!-- Card Header - Dropdown -->
+                  <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+                  >
+                    <h6 class="m-0 font-weight-bold text-primary">
+                      {{ "admin-products.Recent Orders" | translate }}
+                    </h6>
+                  </div>
+                  <!-- Card Body -->
+                  <div class="card-body">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">
+                            {{ "admin-products.Name" | translate }}
+                          </th>
+                          <th scope="col">
+                            {{ "admin-products.Price" | translate }}
+                          </th>
+                          <th scope="col">
+                            {{ "admin-products.Order Items Count" | translate }}
+                          </th>
+                          <th scope="col">
+                            {{ "admin-products.Status" | translate }}
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody *ngFor="let order of allOrders; let index = index">
+                        <tr *ngIf="index < 10">
+                          <td>{{ order.user.fullname }}</td>
+                          <td>{{ order.totalPrice | currency : " EGP " }}</td>
+                          <td>{{ order.orderItems.length }}</td>
+                          <td>{{ order.status }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-4 col-lg-5">
+                <div class="card shadow mb-4">
+                  <!-- Card Header - Dropdown -->
+                  <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+                  >
+                    <h6 class="m-0 font-weight-bold text-primary">
+                      {{ "admin-products.Recent Customers" | translate }}
+                    </h6>
+                  </div>
+                  <!-- Card Body -->
+                  <div class="card-body">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">Name</th>
+                        </tr>
+                      </thead>
+                      <tbody *ngFor="let order of allOrders; let index = index">
+                        <tr *ngIf="index < 10">
+                          <td>{{ order.user.fullname }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Content Row -->
+          </div>
+        </div>
+
+        <!-- End of Main Content -->
+      </div>
+      <!-- End of Content Wrapper -->
+    </div>
+  </div>
+</div>
+
+<!-- End of Page Wrapper -->
